@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StreamKeeper Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        input, select, button {
+            margin: 5px 0;
+            padding: 5px;
+        }
+        hr {
+            margin: 20px 0;
+        }
+    </style>
+    <script>
+        // Function to test API connection
+        function testConnection() {
+            fetch('/tmdb/test-connection')
+                .then(response => response.text())
+                .then(message => {
+                    document.getElementById('connectionStatus').innerText = message;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Function to perform multi-search
+        function multiSearch() {
+            const query = document.getElementById('searchQuery').value;
+            const page = document.getElementById('searchPage').value || 1;
+            fetch(`/tmdb/search/multi?query=${encodeURIComponent(query)}&page=${page}`)
+                .then(response => response.json())
+                .then(data => {
+                    let output = '<h2>Search Results:</h2><ul>';
+                    data.results.forEach(media => {
+                        if (media.mediaType === 'movie') {
+                            output += `<li>Movie: ${media.title} (ID: ${media.id})</li>`;
+                        } else if (media.mediaType === 'tv') {
+                            output += `<li>TV Show: ${media.title} (ID: ${media.id})</li>`;
+                        } else if (media.mediaType === 'person') {
+                            output += `<li>Person: ${media.name} (ID: ${media.id})</li>`;
+                        }
+                    });
+                    output += '</ul>';
+                    document.getElementById('results').innerHTML = output;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Function to get media details
+        function getMediaDetails() {
+            const mediaType = document.getElementById('detailMediaType').value;
+            const id = document.getElementById('detailId').value;
+            fetch(`/tmdb/details/${mediaType}/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    let output = '<h2>Media Details:</h2><pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                    document.getElementById('details').innerHTML = output;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Function to get recommendations
+        function getRecommendations() {
+            const mediaType = document.getElementById('recommendMediaType').value;
+            const id = document.getElementById('recommendId').value;
+            const page = document.getElementById('recommendPage').value || 1;
+            fetch(`/tmdb/${mediaType}/${id}/recommendations?page=${page}`)
+                .then(response => response.json())
+                .then(data => {
+                    let output = '<h2>Recommendations:</h2><ul>';
+                    data.results.forEach(item => {
+                        if (mediaType === 'movie') {
+                            output += `<li>${item.title} (ID: ${item.id})</li>`;
+                        } else if (mediaType === 'tv') {
+                            output += `<li>${item.title} (ID: ${item.id})</li>`;
+                        }
+                    });
+                    output += '</ul>';
+                    document.getElementById('recommendations').innerHTML = output;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Function to get watch providers
+        function getWatchProviders() {
+            const mediaType = document.getElementById('providerMediaType').value;
+            const id = document.getElementById('providerId').value;
+            fetch(`/tmdb/${mediaType}/${id}/watch/providers`)
+                .then(response => response.json())
+                .then(data => {
+                    let output = '<h2>Watch Providers:</h2><pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                    document.getElementById('providers').innerHTML = output;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+    </script>
+</head>
+<body>
+    <h1>StreamKeeper Test Page</h1>
+
+    <button onclick="testConnection()">Test API Connection</button>
+    <p id="connectionStatus"></p>
+
+    <hr>
+
+    <h2>Multi-Search</h2>
+    <input type="text" id="searchQuery" placeholder="Enter search query">
+    <input type="number" id="searchPage" placeholder="Page number" min="1">
+    <button onclick="multiSearch()">Search</button>
+    <div id="results"></div>
+
+    <hr>
+
+    <h2>Get Media Details</h2>
+    <select id="detailMediaType">
+        <option value="movie">Movie</option>
+        <option value="tv">TV Show</option>
+        <option value="person">Person</option>
+    </select>
+    <input type="number" id="detailId" placeholder="Enter media ID">
+    <button onclick="getMediaDetails()">Get Details</button>
+    <div id="details"></div>
+
+    <hr>
+
+    <h2>Get Recommendations</h2>
+    <select id="recommendMediaType">
+        <option value="movie">Movie</option>
+        <option value="tv">TV Show</option>
+    </select>
+    <input type="number" id="recommendId" placeholder="Enter media ID">
+    <input type="number" id="recommendPage" placeholder="Page number" min="1">
+    <button onclick="getRecommendations()">Get Recommendations</button>
+    <div id="recommendations"></div>
+
+    <hr>
+
+    <h2>Get Watch Providers</h2>
+    <select id="providerMediaType">
+        <option value="movie">Movie</option>
+        <option value="tv">TV Show</option>
+    </select>
+    <input type="number" id="providerId" placeholder="Enter media ID">
+    <button onclick="getWatchProviders()">Get Watch Providers</button>
+    <div id="providers"></div>
+
+</body>
+</html>

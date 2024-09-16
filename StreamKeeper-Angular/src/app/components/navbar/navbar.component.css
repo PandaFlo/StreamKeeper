@@ -1,0 +1,119 @@
+/* Make the container stretch across the entire viewport */
+.navbar-container {
+    width: 100vw; /* Always full viewport width */
+    background-color: #000; /* Black background */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    height: 160px; /* Fixed height for the container */
+  }
+  
+  /* Red background for the navbar itself with rounded edges */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px; /* Padding inside the navbar */
+    width: 100%; /* Full width for the navbar */
+    max-width: 1200px; /* Limit the width for larger screens */
+    background-color: #a53333; /* Red background for the navbar */
+    box-sizing: border-box;
+    height: 120px; /* Fixed height for the navbar */
+    margin-top: 20px;
+    border-radius: 15px;
+    transition: padding 0.3s ease, gap 0.3s ease, width 0.3s ease;
+  }
+  
+  .navbar-left {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .navbar-logo {
+    height: 120px; /* Fixed logo height */
+    width: auto; /* Maintain aspect ratio */
+    object-fit: contain;
+  }
+  
+  .navbar-center {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .navbar-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff; /* White text */
+    white-space: nowrap;
+  }
+  
+  .navbar-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  
+  .navbar-options {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    gap: 20px;
+    white-space: nowrap;
+  }
+  
+  .navbar-options li {
+    display: inline-block;
+  }
+  
+  .navbar-options a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .navbar-options a:hover {
+    color: #a66922;
+  }
+  
+  /* Start reducing navbar width when viewport is less than 1350px */
+  @media (max-width: 1350px) {
+    .navbar {
+      max-width: 90%;
+    }
+  
+    .navbar-center {
+      justify-content: center;
+    }
+  
+    .navbar-options {
+      gap: 15px;
+    }
+  }
+  
+  /* Further adjustments as viewport shrinks */
+  @media (max-width: 1100px) {
+    .navbar {
+      max-width: 85%;
+    }
+  
+    .navbar-title {
+      font-size: 1.4rem;
+    }
+  
+    .navbar-options {
+      gap: 10px;
+    }
+  }
+  
