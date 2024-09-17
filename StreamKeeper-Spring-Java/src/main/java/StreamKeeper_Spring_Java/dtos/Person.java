@@ -2,6 +2,7 @@ package StreamKeeper_Spring_Java.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * Represents a Person object returned by the TMDB API.
@@ -9,26 +10,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Person extends Media {
 
-    private int id;
     private String name;
 
     @JsonProperty("profile_path")
     private String profilePath;
 
-    // Additional fields like known_for can be added if needed
+    @JsonProperty("known_for")
+    private List<Media> knownFor;
 
     // Getters and Setters
 
-    public int getId() {
-        return id;
-    }
-
-    @JsonProperty("id")
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
+    @Override
+    public String getTitle() {
         return name;
     }
 
@@ -44,5 +37,13 @@ public class Person extends Media {
     @JsonProperty("profile_path")
     public void setProfilePath(String profilePath) {
         this.profilePath = profilePath;
+    }
+
+    public List<Media> getKnownFor() {
+        return knownFor;
+    }
+
+    public void setKnownFor(List<Media> knownFor) {
+        this.knownFor = knownFor;
     }
 }

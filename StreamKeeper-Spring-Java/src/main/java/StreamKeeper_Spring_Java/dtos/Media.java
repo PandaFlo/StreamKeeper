@@ -1,25 +1,28 @@
 package StreamKeeper_Spring_Java.dtos;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- * Base class for media types returned by the TMDB API.
+ * Base class for media types.
  */
-@JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.EXISTING_PROPERTY,
-    property = "media_type",
-    visible = true
-)
-@JsonSubTypes({
-    @JsonSubTypes.Type(value = Movie.class, name = "movie"),
-    @JsonSubTypes.Type(value = TvShow.class, name = "tv"),
-    @JsonSubTypes.Type(value = Person.class, name = "person")
-})
+@JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class Media {
 
+    protected int id;
     private String mediaType;
+
+    // Abstract method to get the title/name
+    public abstract String getTitle();
+
+    // Getters and Setters
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    } 
 
     public String getMediaType() {
         return mediaType;

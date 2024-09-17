@@ -2,7 +2,6 @@ package StreamKeeper_Spring_Java.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 
 /**
@@ -12,6 +11,7 @@ import java.util.List;
 public class MultiSearchResult {
 
     private int page;
+
     private List<Media> results;
 
     @JsonProperty("total_results")

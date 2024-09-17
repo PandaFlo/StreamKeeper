@@ -9,10 +9,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TvShow extends Media {
 
-    private int id;
-
     @JsonProperty("name")
-    private String title;
+    private String name;
 
     @JsonProperty("first_air_date")
     private String firstAirDate;
@@ -22,26 +20,16 @@ public class TvShow extends Media {
     @JsonProperty("poster_path")
     private String posterPath;
 
-    // Additional fields can be added as needed
-
     // Getters and Setters
 
-    public int getId() {
-        return id;
-    }
-
-    @JsonProperty("id")
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    @Override
     public String getTitle() {
-        return title;
+        return name;
     }
 
     @JsonProperty("name")
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getFirstAirDate() {
