@@ -37,13 +37,7 @@
                 .then(data => {
                     let output = '<h2>Search Results:</h2><ul>';
                     data.results.forEach(media => {
-                        if (media.mediaType === 'movie') {
-                            output += `<li>Movie: ${media.title} (ID: ${media.id})</li>`;
-                        } else if (media.mediaType === 'tv') {
-                            output += `<li>TV Show: ${media.title} (ID: ${media.id})</li>`;
-                        } else if (media.mediaType === 'person') {
-                            output += `<li>Person: ${media.name} (ID: ${media.id})</li>`;
-                        }
+                        output += `<li>${media.mediaType.charAt(0).toUpperCase() + media.mediaType.slice(1)}: ${media.title || media.name} (ID: ${media.id})</li>`;
                     });
                     output += '</ul>';
                     document.getElementById('results').innerHTML = output;
@@ -74,11 +68,7 @@
                 .then(data => {
                     let output = '<h2>Recommendations:</h2><ul>';
                     data.results.forEach(item => {
-                        if (mediaType === 'movie') {
-                            output += `<li>${item.title} (ID: ${item.id})</li>`;
-                        } else if (mediaType === 'tv') {
-                            output += `<li>${item.title} (ID: ${item.id})</li>`;
-                        }
+                        output += `<li>${item.title || item.name} (ID: ${item.id})</li>`;
                     });
                     output += '</ul>';
                     document.getElementById('recommendations').innerHTML = output;
@@ -95,6 +85,150 @@
                 .then(data => {
                     let output = '<h2>Watch Providers:</h2><pre>' + JSON.stringify(data, null, 2) + '</pre>';
                     document.getElementById('providers').innerHTML = output;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Function to search keywords
+        function searchKeywords() {
+            const query = document.getElementById('keywordQuery').value;
+            fetch(`/tmdb/search/keyword?query=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    let output = '<h2>Keyword Search Results:</h2><ul>';
+                    data.results.forEach(keyword => {
+                        output += `<li>${keyword.name} (ID: ${keyword.id})</li>`;
+                    });
+                    output += '</ul>';
+                    document.getElementById('keywordResults').innerHTML = output;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Function to get popular movies
+        function getPopularMovies() {
+            const page = document.getElementById('popularMoviesPage').value || 1;
+            fetch(`/tmdb/movies/popular?page=${page}`)
+                .then(response => response.json())
+                .then(data => {
+                    let output = '<h2>Popular Movies:</h2><ul>';
+                    data.results.forEach(movie => {
+                        output += `<li>${movie.title} (ID: ${movie.id})</li>`;
+                    });
+                    output += '</ul>';
+                    document.getElementById('popularMovies').innerHTML = output;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Function to get top-rated movies
+        function getTopRatedMovies() {
+            const page = document.getElementById('topRatedMoviesPage').value || 1;
+            fetch(`/tmdb/movies/top-rated?page=${page}`)
+                .then(response => response.json())
+                .then(data => {
+                    let output = '<h2>Top-Rated Movies:</h2><ul>';
+                    data.results.forEach(movie => {
+                        output += `<li>${movie.title} (ID: ${movie.id})</li>`;
+                    });
+                    output += '</ul>';
+                    document.getElementById('topRatedMovies').innerHTML = output;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Function to get upcoming movies
+        function getUpcomingMovies() {
+            const page = document.getElementById('upcomingMoviesPage').value || 1;
+            fetch(`/tmdb/movies/upcoming?page=${page}`)
+                .then(response => response.json())
+                .then(data => {
+                    let output = '<h2>Upcoming Movies:</h2><ul>';
+                    data.results.forEach(movie => {
+                        output += `<li>${movie.title} (ID: ${movie.id})</li>`;
+                    });
+                    output += '</ul>';
+                    document.getElementById('upcomingMovies').innerHTML = output;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Function to get now-playing movies
+        function getNowPlayingMovies() {
+            const page = document.getElementById('nowPlayingMoviesPage').value || 1;
+            fetch(`/tmdb/movies/now-playing?page=${page}`)
+                .then(response => response.json())
+                .then(data => {
+                    let output = '<h2>Now-Playing Movies:</h2><ul>';
+                    data.results.forEach(movie => {
+                        output += `<li>${movie.title} (ID: ${movie.id})</li>`;
+                    });
+                    output += '</ul>';
+                    document.getElementById('nowPlayingMovies').innerHTML = output;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Function to get popular TV shows
+        function getPopularTvShows() {
+            const page = document.getElementById('popularTvShowsPage').value || 1;
+            fetch(`/tmdb/tv/popular?page=${page}`)
+                .then(response => response.json())
+                .then(data => {
+                    let output = '<h2>Popular TV Shows:</h2><ul>';
+                    data.results.forEach(tvShow => {
+                        output += `<li>${tvShow.name} (ID: ${tvShow.id})</li>`;
+                    });
+                    output += '</ul>';
+                    document.getElementById('popularTvShows').innerHTML = output;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Function to get top-rated TV shows
+        function getTopRatedTvShows() {
+            const page = document.getElementById('topRatedTvShowsPage').value || 1;
+            fetch(`/tmdb/tv/top-rated?page=${page}`)
+                .then(response => response.json())
+                .then(data => {
+                    let output = '<h2>Top-Rated TV Shows:</h2><ul>';
+                    data.results.forEach(tvShow => {
+                        output += `<li>${tvShow.name} (ID: ${tvShow.id})</li>`;
+                    });
+                    output += '</ul>';
+                    document.getElementById('topRatedTvShows').innerHTML = output;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Function to get TV shows airing today
+        function getAiringTodayTvShows() {
+            const page = document.getElementById('airingTodayTvShowsPage').value || 1;
+            fetch(`/tmdb/tv/airing-today?page=${page}`)
+                .then(response => response.json())
+                .then(data => {
+                    let output = '<h2>TV Shows Airing Today:</h2><ul>';
+                    data.results.forEach(tvShow => {
+                        output += `<li>${tvShow.name} (ID: ${tvShow.id})</li>`;
+                    });
+                    output += '</ul>';
+                    document.getElementById('airingTodayTvShows').innerHTML = output;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Function to get TV shows currently on the air
+        function getOnTheAirTvShows() {
+            const page = document.getElementById('onTheAirTvShowsPage').value || 1;
+            fetch(`/tmdb/tv/on-the-air?page=${page}`)
+                .then(response => response.json())
+                .then(data => {
+                    let output = '<h2>TV Shows On The Air:</h2><ul>';
+                    data.results.forEach(tvShow => {
+                        output += `<li>${tvShow.name} (ID: ${tvShow.id})</li>`;
+                    });
+                    output += '</ul>';
+                    document.getElementById('onTheAirTvShows').innerHTML = output;
                 })
                 .catch(error => console.error('Error:', error));
         }
@@ -149,6 +283,69 @@
     <input type="number" id="providerId" placeholder="Enter media ID">
     <button onclick="getWatchProviders()">Get Watch Providers</button>
     <div id="providers"></div>
+
+    <hr>
+
+    <h2>Search Keywords</h2>
+    <input type="text" id="keywordQuery" placeholder="Enter keyword query">
+    <button onclick="searchKeywords()">Search Keywords</button>
+    <div id="keywordResults"></div>
+
+    <hr>
+
+    <h2>Get Popular Movies</h2>
+    <input type="number" id="popularMoviesPage" placeholder="Page number" min="1">
+    <button onclick="getPopularMovies()">Get Popular Movies</button>
+    <div id="popularMovies"></div>
+
+    <hr>
+
+    <h2>Get Top-Rated Movies</h2>
+    <input type="number" id="topRatedMoviesPage" placeholder="Page number" min="1">
+    <button onclick="getTopRatedMovies()">Get Top-Rated Movies</button>
+    <div id="topRatedMovies"></div>
+
+    <hr>
+
+    <h2>Get Upcoming Movies</h2>
+    <input type="number" id="upcomingMoviesPage" placeholder="Page number" min="1">
+    <button onclick="getUpcomingMovies()">Get Upcoming Movies</button>
+    <div id="upcomingMovies"></div>
+
+    <hr>
+
+    <h2>Get Now-Playing Movies</h2>
+    <input type="number" id="nowPlayingMoviesPage" placeholder="Page number" min="1">
+    <button onclick="getNowPlayingMovies()">Get Now-Playing Movies</button>
+    <div id="nowPlayingMovies"></div>
+
+    <hr>
+
+    <h2>Get Popular TV Shows</h2>
+    <input type="number" id="popularTvShowsPage" placeholder="Page number" min="1">
+    <button onclick="getPopularTvShows()">Get Popular TV Shows</button>
+    <div id="popularTvShows"></div>
+
+    <hr>
+
+    <h2>Get Top-Rated TV Shows</h2>
+    <input type="number" id="topRatedTvShowsPage" placeholder="Page number" min="1">
+    <button onclick="getTopRatedTvShows()">Get Top-Rated TV Shows</button>
+    <div id="topRatedTvShows"></div>
+
+    <hr>
+
+    <h2>Get TV Shows Airing Today</h2>
+    <input type="number" id="airingTodayTvShowsPage" placeholder="Page number" min="1">
+    <button onclick="getAiringTodayTvShows()">Get TV Shows Airing Today</button>
+    <div id="airingTodayTvShows"></div>
+
+    <hr>
+
+    <h2>Get TV Shows On The Air</h2>
+    <input type="number" id="onTheAirTvShowsPage" placeholder="Page number" min="1">
+    <button onclick="getOnTheAirTvShows()">Get TV Shows On The Air</button>
+    <div id="onTheAirTvShows"></div>
 
 </body>
 </html>
